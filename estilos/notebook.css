@@ -1,4 +1,28 @@
 #imagen-notebook {
     border: 1px solid black;
     width: 30vw;
+    grid-area: imagen;
+}
+
+#descripcion-producto {
+    grid-area: descripcion;
+}
+
+#opiniones {
+    grid-area: opiniones;
+}
+
+#formulario-opinion {
+    grid-area: formulario-opiniones;
+}
+
+#contenedor-general {
+    display: grid;
+    grid-template-columns: 33vw auto auto;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+            "titulo titulo titulo"
+            "imagen descripcion descripcion"
+            "opiniones opiniones opiniones"
+            "formulario-opiniones formulario-opiniones formulario-opiniones";
 }
