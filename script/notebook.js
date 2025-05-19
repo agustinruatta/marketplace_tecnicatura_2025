@@ -5,9 +5,7 @@ async function obtenerDatosApi() {
     return await response.json();
 }
 
-async function cargarDatosHtml() {
-    let data = await obtenerDatosApi();
-
+async function cargarDatosHtml(data) {
     let listaCaracteristicas = [];
     for (let tipoNotebook of data.notebooksTypes) {
         let textoDescripcion = `${tipoNotebook.ramAmount} de RAM, $ ${tipoNotebook.price}`;
@@ -19,6 +17,28 @@ async function cargarDatosHtml() {
     establecerTexto('descripcion', data.description);
     establecerImagen('imagen-notebook', data.image_urls[0], data.title);
     editarLink('link-sitio-web', data.factory_url);
+
+    let valorLocalStorage = localStorage.getItem('favoritos');
+    if (valorLocalStorage !== null) {
+        let listaFavoritos = JSON.parse(valorLocalStorage);
+        if (listaFavoritos.includes(data.id)) {
+            document.getElementById('agregado-favoritos-texto').textContent = 'Agregado a favoritos';
+        }
+    }
 }
 
-cargarDatosHtml();
+let datosApi = await obtenerDatosApi();
+cargarDatosHtml(datosApi);
+
+document.getElementById('agregar-favoritos').addEventListener('click', function () {
+    let valorGuardadoLocalStorage = localStorage.getItem('favoritos');
+
+    if (valorGuardadoLocalStorage === null) {
+        let listaFavoritos = [datosApi.id];
+        localStorage.setItem('favoritos', JSON.stringify(listaFavoritos));
+    } else {
+        let listaFavoritos = JSON.parse(valorGuardadoLocalStorage);
+        listaFavoritos.push(datosApi.id);
+        localStorage.setItem('favoritos', JSON.stringify(listaFavoritos));
+    }
+})
