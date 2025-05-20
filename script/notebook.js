@@ -27,18 +27,21 @@ async function cargarDatosHtml(data) {
     }
 }
 
+function permitirAgregarFavoritos(idNotebook) {
+    document.getElementById('agregar-favoritos').addEventListener('click', function () {
+        let valorGuardadoLocalStorage = localStorage.getItem('favoritos');
+
+        if (valorGuardadoLocalStorage === null) {
+            let listaFavoritos = [idNotebook];
+            localStorage.setItem('favoritos', JSON.stringify(listaFavoritos));
+        } else {
+            let listaFavoritos = JSON.parse(valorGuardadoLocalStorage);
+            listaFavoritos.push(idNotebook);
+            localStorage.setItem('favoritos', JSON.stringify(listaFavoritos));
+        }
+    })
+}
+
 let datosApi = await obtenerDatosApi();
 cargarDatosHtml(datosApi);
-
-document.getElementById('agregar-favoritos').addEventListener('click', function () {
-    let valorGuardadoLocalStorage = localStorage.getItem('favoritos');
-
-    if (valorGuardadoLocalStorage === null) {
-        let listaFavoritos = [datosApi.id];
-        localStorage.setItem('favoritos', JSON.stringify(listaFavoritos));
-    } else {
-        let listaFavoritos = JSON.parse(valorGuardadoLocalStorage);
-        listaFavoritos.push(datosApi.id);
-        localStorage.setItem('favoritos', JSON.stringify(listaFavoritos));
-    }
-})
+permitirAgregarFavoritos(datosApi.id);
