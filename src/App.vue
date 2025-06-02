@@ -1,7 +1,15 @@
 <script setup>
 import { ref } from 'vue'
 
-let datosNotebook = ref(null)
+let datosNotebook = ref({
+      "id": 0,
+      "title": "",
+      "description": "",
+      "image_url": "",
+      "factory_url": "",
+      "features": []
+    }
+)
 
 async function cargarDatosApi() {
   let respuesta = await fetch('https://my-json-server.typicode.com/agustinruatta/fake_json_server_db/products/1');
@@ -15,7 +23,7 @@ cargarDatosApi();
   <div id="contenedor-general">
     <h1 id="titulo" class="caja">{{ datosNotebook.title }}</h1>
 
-    <img class="caja" id="imagen-notebook" :src="datosNotebook.image_url" alt="" />
+    <img class="caja" id="imagen-notebook" :src="datosNotebook.image_urls[0]" alt="" />
 
     <div class="caja" id="descripcion-producto">
       <p id="descripcion">
