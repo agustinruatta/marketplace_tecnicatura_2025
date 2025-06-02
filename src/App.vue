@@ -2,22 +2,21 @@
 import { ref } from 'vue'
 
 let datosNotebook = ref({
-    "id": 1,
-    "title": "Notebook HP 14-dq2024la",
-    "description": "Computadora HP orientado para gama media. Procesador Intel® Core™ i9 de 11.ª generación.  Windows 10 Home 64.  Unidad de estado sólido PCIe® NVMe™ M.2 de 256 GB . Pantalla de 14 pulgadas.",
-    "image_url": "https://ar-media.hptiendaenlinea.com/catalog/product/8/V/8VW01LA-1_T1615590539.png",
-    "factory_url": "https://www.hp.com/ar-es/shop/notebook-hp-14-dq2024la-3v8j6la.html",
-    "features": [{
-      "name": "RAM",
-      "description": "8 GB"
-    },
-      {
-        "name": "Procesador",
-        "description": "Intel I9"
-      }
-    ]
-  }
+      "id": 0,
+      "title": "",
+      "description": "",
+      "image_url": "",
+      "factory_url": "",
+      "features": []
+    }
 )
+
+async function cargarDatosApi() {
+  let respuesta = await fetch('https://my-json-server.typicode.com/agustinruatta/fake_json_server_db/products/1');
+  datosNotebook.value = await respuesta.json();
+}
+
+cargarDatosApi();
 </script>
 
 <template>
@@ -38,8 +37,8 @@ let datosNotebook = ref({
       <h2>Características</h2>
       <ul id="lista-tipos">
         <li
-          v-for="(notebook, indice) in datosNotebook.features"
-          :key="indice"
+            v-for="(notebook, indice) in datosNotebook.features"
+            :key="indice"
         >{{ notebook.description }}</li>
       </ul>
 
