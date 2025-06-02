@@ -1,15 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 
-let datosNotebook = ref({
-      "id": 0,
-      "title": "",
-      "description": "",
-      "image_url": "",
-      "factory_url": "",
-      "features": []
-    }
-)
+let datosNotebook = ref(null)
 
 async function cargarDatosApi() {
   let respuesta = await fetch('https://my-json-server.typicode.com/agustinruatta/fake_json_server_db/products/1');
