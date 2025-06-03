@@ -1,5 +1,14 @@
 <script setup>
 import {ref} from 'vue';
+import {Form, Field, ErrorMessage} from 'vee-validate';
+import * as yup from 'yup';
+
+let schema = {
+  titulo: yup.string().min(1),
+  descripcion: yup.string().min(1),
+  imagen: yup.string().url().min(1),
+  sitio: yup.string().url().min(1)
+}
 
 let datosNotebook = ref({
   titulo: '',
@@ -25,8 +34,9 @@ async function enviarDatosApi() {
     headers: {
       'Content-Type': 'application/json'
     }
-  })
+  });
 
+  //Verifico si fue exitosa la respuesta
   if (response.ok) {
     alert('Notebook guardada correctamente');
   } else {
@@ -37,53 +47,61 @@ async function enviarDatosApi() {
 </script>
 
 <template>
-  <form @submit.prevent="enviarDatosApi" id="formulario-carga">
+  <Form :validation-schema="schema" @submit.prevent="enviarDatosApi" id="formulario-carga">
     <label>
       Título:
-      <input v-model="datosNotebook.titulo" type="text" name="title" id="title">
+      <Field v-model="datosNotebook.titulo" type="text" name="titulo" id="title"/>
     </label>
+    <ErrorMessage name="titulo"></ErrorMessage>
 
     <br>
 
     <label>
       Descripción:
-      <input v-model="datosNotebook.descripcion" type="text" name="description" id="description">
+      <Field v-model="datosNotebook.descripcion" type="text" name="descripcion" id="description"/>
     </label>
+    <ErrorMessage name="descripcion"></ErrorMessage>
 
     <br>
 
     <label>
       URL imagen:
-      <input v-model="datosNotebook.imagen" type="text" name="image" id="image">
+      <Field v-model="datosNotebook.imagen" type="text" name="imagen" id="image"/>
     </label>
+    <ErrorMessage name="imagen"></ErrorMessage>
 
     <br>
 
     <label>
       URL sitio web:
-      <input v-model="datosNotebook.sitio" type="text" name="site" id="site">
+      <Field v-model="datosNotebook.sitio" type="text" name="sitio" id="site"/>
     </label>
+    <ErrorMessage name="sitio"></ErrorMessage>
 
     <br>
 
     <label>
       Característica 1:
-      <input v-model="datosNotebook.caracteristicas[0].nombre" type="text" name="nameFeatureA" id="nameFeatureA" placeholder="Nombre">
-      <input v-model="datosNotebook.caracteristicas[0].descripcion" type="text" name="descriptionFeatureA" id="descriptionFeatureA" placeholder="Descripción">
+      <Field v-model="datosNotebook.caracteristicas[0].nombre" type="text" name="nameFeatureA" id="nameFeatureA"
+             placeholder="Nombre"/>
+      <Field v-model="datosNotebook.caracteristicas[0].descripcion" type="text" name="descriptionFeatureA"
+             id="descriptionFeatureA" placeholder="Descripción"/>
     </label>
 
     <br>
 
     <label>
       Característica 2:
-      <input v-model="datosNotebook.caracteristicas[1].nombre" type="text" name="nameFeatureB" id="nameFeatureB" placeholder="Nombre">
-      <input v-model="datosNotebook.caracteristicas[1].descripcion" type="text" name="descriptionFeatureB" id="descriptionFeatureB" placeholder="Descripción">
+      <Field v-model="datosNotebook.caracteristicas[1].nombre" type="text" name="nameFeatureB" id="nameFeatureB"
+             placeholder="Nombre"/>
+      <Field v-model="datosNotebook.caracteristicas[1].descripcion" type="text" name="descriptionFeatureB"
+             id="descriptionFeatureB" placeholder="Descripción"/>
     </label>
 
     <br>
 
     <input type="submit" value="Guardar">
-  </form>
+  </Form>
 </template>
 
 <style scoped>
