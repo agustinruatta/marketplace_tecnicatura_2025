@@ -3,7 +3,53 @@
 </script>
 
 <template>
-<h1>Alta Notebook</h1>
+  <form id="formulario-carga">
+    <label>
+      Título:
+      <input type="text" name="title" id="title">
+    </label>
+
+    <br>
+
+    <label>
+      Descripción:
+      <input type="text" name="description" id="description">
+    </label>
+
+    <br>
+
+    <label>
+      URL imagen:
+      <input type="text" name="image" id="image">
+    </label>
+
+    <br>
+
+    <label>
+      URL sitio web:
+      <input type="text" name="site" id="site">
+    </label>
+
+    <br>
+
+    <label>
+      Característica 1:
+      <input type="text" name="nameFeatureA" id="nameFeatureA" placeholder="Nombre">
+      <input type="text" name="descriptionFeatureA" id="descriptionFeatureA" placeholder="Descripción">
+    </label>
+
+    <br>
+
+    <label>
+      Característica 2:
+      <input type="text" name="nameFeatureB" id="nameFeatureB" placeholder="Nombre">
+      <input type="text" name="descriptionFeatureB" id="descriptionFeatureB" placeholder="Descripción">
+    </label>
+
+    <br>
+
+    <input type="submit" value="Guardar">
+  </form>
 </template>
 
 <style scoped>
