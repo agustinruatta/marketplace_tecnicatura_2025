@@ -2,17 +2,24 @@
 import { ref } from 'vue'
 
 let datosNotebook = ref({
-      "id": 0,
-      "title": "",
-      "description": "",
-      "image_url": "",
-      "factory_url": "",
-      "features": []
+  titulo: '',
+  descripcion: '',
+  imagen: '',
+  sitio: '',
+  caracteristicas: [
+    {
+      nombre: '',
+      descripcion: ''
+    },
+    {
+      nombre: '',
+      descripcion: ''
     }
-)
+  ]
+});
 
 async function cargarDatosApi() {
-  let respuesta = await fetch('https://my-json-server.typicode.com/agustinruatta/fake_json_server_db/products/1');
+  let respuesta = await fetch('https://crudcrud.com/api/3dfc4bff57134489abd590c1bfc6bccc/notebooks/683e51f074820f03e85db751');
   datosNotebook.value = await respuesta.json();
 }
 
@@ -21,13 +28,13 @@ cargarDatosApi();
 
 <template>
   <div id="contenedor-general">
-    <h1 id="titulo" class="caja">{{ datosNotebook.title }}</h1>
+    <h1 id="titulo" class="caja">{{ datosNotebook.titulo }}</h1>
 
-    <img class="caja" id="imagen-notebook" :src="datosNotebook.image_urls[0]" alt="" />
+    <img class="caja" id="imagen-notebook" :src="datosNotebook.imagen" alt="" />
 
     <div class="caja" id="descripcion-producto">
       <p id="descripcion">
-        {{ datosNotebook.description }}
+        {{ datosNotebook.descripcion }}
       </p>
 
       <button id="agregar-favoritos">Agregar a favoritos</button>
@@ -37,12 +44,12 @@ cargarDatosApi();
       <h2>Características</h2>
       <ul id="lista-tipos">
         <li
-            v-for="(notebook, indice) in datosNotebook.features"
+            v-for="(notebook, indice) in datosNotebook.caracteristicas"
             :key="indice"
-        >{{ notebook.description }}</li>
+        >{{ notebook.descripcion }}</li>
       </ul>
 
-      <a :href="datosNotebook.factory_url" id="link-sitio-web">Sitio web</a>
+      <a :href="datosNotebook.sitio" id="link-sitio-web">Sitio web</a>
     </div>
 
     <div class="caja" id="opiniones">
