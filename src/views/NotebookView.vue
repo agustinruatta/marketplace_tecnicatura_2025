@@ -1,5 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import {ref} from 'vue';
+import Caracteristicas from '@/components/Caracteristicas.vue';
+import Enlace from '@/components/Enlace.vue';
 
 let datosNotebook = ref({
   title: '',
@@ -31,7 +33,7 @@ let opiniones = ref([
     text: 'Excelente',
     score: 4
   }
-])
+]);
 
 
 let total = 0;
@@ -53,7 +55,7 @@ cargarDatosApi();
   <div id="contenedor-general">
     <h1 id="titulo" class="caja">{{ datosNotebook.title }}</h1>
 
-    <img class="caja" id="imagen-notebook" :src="datosNotebook.image_url" alt="" />
+    <img class="caja" id="imagen-notebook" :src="datosNotebook.image_url" alt=""/>
 
     <div class="caja" id="descripcion-producto">
       <p id="descripcion">
@@ -64,19 +66,13 @@ cargarDatosApi();
 
       <p id="agregado-favoritos-texto"></p>
 
-      <h2>Características</h2>
-      <ul id="lista-tipos">
-        <li
-            v-for="(notebook, indice) in datosNotebook.features"
-            :key="indice"
-        >{{ notebook.name + ': ' + notebook.description }}</li>
-      </ul>
+      <Caracteristicas :features="datosNotebook.features"></Caracteristicas>
 
       <p v-if="datosNotebook.title.includes('HP')">Garantía de 1 año</p>
       <p v-else-if="datosNotebook.title.includes('Dell')">Garantía de 2 años</p>
       <p v-else>Sin garantía</p>
 
-      <a :href="datosNotebook.factory_url" id="link-sitio-web">Sitio web</a>
+      <Enlace :url="datosNotebook.factory_url" text="Sitio web"></Enlace>
     </div>
 
     <div class="caja" id="opiniones">
@@ -94,7 +90,7 @@ cargarDatosApi();
       <form action="#" method="post">
         <label>
           Comentario:
-          <input type="text" name="comentario" />
+          <input type="text" name="comentario"/>
         </label>
 
         <label>
@@ -109,7 +105,7 @@ cargarDatosApi();
         </label>
 
         <label>
-          <input type="submit" value="Enviar" />
+          <input type="submit" value="Enviar"/>
         </label>
       </form>
     </div>
