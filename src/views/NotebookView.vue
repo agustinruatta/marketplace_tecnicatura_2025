@@ -18,6 +18,29 @@ let datosNotebook = ref({
   ]
 });
 
+let opiniones = ref([
+  {
+    text: 'Buena notebook',
+    score: 5
+  },
+  {
+    text: 'Muy buena',
+    score: 4
+  },
+  {
+    text: 'Excelente',
+    score: 4
+  }
+])
+
+
+let total = 0;
+for (let opinion of opiniones.value) {
+  total += opinion.score;
+}
+
+let promedio = ref(total / opiniones.value.length);
+
 async function cargarDatosApi() {
   let respuesta = await fetch('https://my-json-server.typicode.com/agustinruatta/fake_json_server_db/products/1');
   datosNotebook.value = await respuesta.json();
@@ -49,16 +72,20 @@ cargarDatosApi();
         >{{ notebook.name + ': ' + notebook.description }}</li>
       </ul>
 
+      <p v-if="datosNotebook.title.includes('HP')">Garantía de 1 año</p>
+      <p v-else-if="datosNotebook.title.includes('Dell')">Garantía de 2 años</p>
+      <p v-else>Sin garantía</p>
+
       <a :href="datosNotebook.factory_url" id="link-sitio-web">Sitio web</a>
     </div>
 
     <div class="caja" id="opiniones">
       <h2>Opiniones</h2>
       <ul>
-        <li>Buena notebook - 5/5</li>
-        <li>Muy buena - 4/5</li>
-        <li>Me llego rota - 1/5</li>
+        <li v-for="(opinion, index) in opiniones" :key="index">{{ opinion.text }} - {{ opinion.score }}/5</li>
       </ul>
+
+      <p v-if="promedio >= 4">Producto de calidad</p>
     </div>
 
     <div class="caja" id="formulario-opinion">
