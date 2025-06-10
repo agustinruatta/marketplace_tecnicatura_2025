@@ -1,4 +1,15 @@
 <script setup>
+import {ref} from 'vue';
+
+let notebooks = ref([])
+
+async function cargarNotebooks() {
+  let notebooksApi = await fetch('https://my-json-server.typicode.com/agustinruatta/fake_json_server_db/products/');
+  notebooks.value = await notebooksApi.json();
+}
+
+cargarNotebooks();
+
 </script>
 
 <template>
@@ -18,40 +29,13 @@
 
     <h1 id="titulo">Las notebooks más compradas</h1>
 
-    <div class="caja" id="notebook1">
-      <a href="notebook.html">
-        <strong>Notebook HP 14-dq2024la</strong>
+    <div v-for="(notebook, index) in notebooks" :key="index" class="caja" :id="'notebook' + (index + 1)">
+      <RouterLink :to="'/notebook/' + notebook.id">
+        <strong>{{ notebook.title }}</strong>
         <img
-            src="https://ar-media.hptiendaenlinea.com/catalog/product/8/V/8VW01LA-1_T1615590539.png"
-            alt="Notebook HP 14-dq2024la">
-      </a>
-    </div>
-
-    <div class="caja" id="notebook2">
-      <a href="notebook.html">
-        <strong>Notebook HP 14-dq2024la</strong>
-        <img
-            src="https://ar-media.hptiendaenlinea.com/catalog/product/8/V/8VW01LA-1_T1615590539.png"
-            alt="Notebook HP 14-dq2024la">
-      </a>
-    </div>
-
-    <div class="caja" id="notebook3">
-      <a href="notebook.html">
-        <strong>Notebook HP 14-dq2024la</strong>
-        <img
-            src="https://ar-media.hptiendaenlinea.com/catalog/product/8/V/8VW01LA-1_T1615590539.png"
-            alt="Notebook HP 14-dq2024la">
-      </a>
-    </div>
-
-    <div class="caja" id="notebook4">
-      <a href="notebook.html">
-        <strong>Notebook HP 14-dq2024la</strong>
-        <img
-            src="https://ar-media.hptiendaenlinea.com/catalog/product/8/V/8VW01LA-1_T1615590539.png"
-            alt="Notebook HP 14-dq2024la">
-      </a>
+            :src="notebook.image_url"
+            :alt="notebook.title">
+      </RouterLink>
     </div>
   </div>
 </template>
