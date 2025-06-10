@@ -1,24 +1,14 @@
 <script setup>
 import {ref} from 'vue';
+import { useRoute } from 'vue-router';
+
 import Caracteristicas from '@/components/Caracteristicas.vue';
 import Enlace from '@/components/Enlace.vue';
 
-let datosNotebook = ref({
-  title: '',
-  description: '',
-  image_url: '',
-  factory_url: '',
-  features: [
-    {
-      name: '',
-      description: ''
-    },
-    {
-      name: '',
-      description: ''
-    }
-  ]
-});
+let route = useRoute();
+let id = route.params.id;
+
+let datosNotebook = ref(undefined);
 
 let opiniones = ref([
   {
@@ -44,15 +34,20 @@ for (let opinion of opiniones.value) {
 let promedio = ref(total / opiniones.value.length);
 
 async function cargarDatosApi() {
-  let respuesta = await fetch('https://my-json-server.typicode.com/agustinruatta/fake_json_server_db/products/1');
-  datosNotebook.value = await respuesta.json();
+  let respuesta = await fetch('https://my-json-server.typicode.com/agustinruatta/fake_json_server_db/products/' + id);
+
+  if (respuesta.ok) {
+    datosNotebook.value = await respuesta.json();
+  } else {
+    alert('ID inválido');
+  }
 }
 
 cargarDatosApi();
 </script>
 
 <template>
-  <div id="contenedor-general">
+  <div id="contenedor-general" v-if="datosNotebook !== undefined">
     <h1 id="titulo" class="caja">{{ datosNotebook.title }}</h1>
 
     <img class="caja" id="imagen-notebook" :src="datosNotebook.image_url" alt=""/>
@@ -110,6 +105,7 @@ cargarDatosApi();
       </form>
     </div>
   </div>
+  <p v-else>Cargando...</p>
 </template>
 
 <style scoped>

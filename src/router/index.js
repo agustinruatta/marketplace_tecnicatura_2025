@@ -17,7 +17,7 @@ const router = createRouter({
       component: AltaNotebookView,
     },
     {
-      path: '/notebook',
+      path: '/notebook/:id',
       name: 'notebook',
       component: NotebookView,
     }
