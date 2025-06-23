@@ -1,9 +1,11 @@
 <script setup>
 import {ref} from 'vue';
-import { useRoute } from 'vue-router';
+import {useRoute} from 'vue-router';
 
 import Caracteristicas from '@/components/Caracteristicas.vue';
 import Enlace from '@/components/Enlace.vue';
+import CarroDeCompras from "@/components/CarroDeCompras.vue";
+import {carroDeComprasStore} from "@/stores/carroDeCompras.js";
 
 let route = useRoute();
 let id = route.params.id;
@@ -43,10 +45,20 @@ async function cargarDatosApi() {
   }
 }
 
+let carroDeCompras = carroDeComprasStore()
+
+function comprarNotebook() {
+  carroDeCompras.agregarNotebook({
+    nombre: datosNotebook.value.title,
+  });
+}
+
 cargarDatosApi();
 </script>
 
 <template>
+  <CarroDeCompras></CarroDeCompras>
+
   <div id="contenedor-general" v-if="datosNotebook !== undefined">
     <h1 id="titulo" class="caja">{{ datosNotebook.title }}</h1>
 
@@ -68,6 +80,8 @@ cargarDatosApi();
       <p v-else>Sin garantía</p>
 
       <Enlace :url="datosNotebook.factory_url" text="Sitio web"></Enlace>
+
+      <button @click="comprarNotebook">Comprar</button>
     </div>
 
     <div class="caja" id="opiniones">

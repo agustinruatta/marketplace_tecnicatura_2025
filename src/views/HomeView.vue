@@ -1,5 +1,6 @@
 <script setup>
 import {ref} from 'vue';
+import CarroDeCompras from "@/components/CarroDeCompras.vue";
 
 let notebooks = ref([])
 
@@ -26,6 +27,8 @@ cargarNotebooks();
         </label>
       </form>
     </div>
+
+    <CarroDeCompras></CarroDeCompras>
 
     <h1 id="titulo">Las notebooks más compradas</h1>
 
